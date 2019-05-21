@@ -6,6 +6,6 @@ It can scrap the input user's all post website link, post img, number of like an
 
 Usage is very easy. In the ig_scrapper.py file, at the bottom,
   
-  you have to input the 'username input', 'passowrd input' and 'username to be scrapped' and run the code.
+  you have to input the 'ig_username', 'ig_password' and 'username to be scrapped' and run the code.
   
   
