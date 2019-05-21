@@ -6,14 +6,18 @@ import requests
 import re
 import random
 import csv
+import os
+from data_analysis import data_transformation
+from data_plot import plot_scroll_annotate_bar_chart
+
 
 class IGScrapper:
 	def __init__(self, username, password, filename, driver_type):
 		self.username = username
 		self.password = password
-		self.filename = filename + '.csv'
+		self.filename = filename
 		if driver_type.lower() == 'chrome':
-			self.driver = webdriver.Chrome() #rmb to download the chromedriver.exe
+			self.driver = webdriver.Chrome() #rmb to download the chromedriver.exe (link: http://chromedriver.chromium.org/downloads)
 		elif driver_type.lower() == 'firefox':
 			self.driver = webdriver.Firefox() # rmb to download the firefox.exe
 		else:
@@ -46,7 +50,8 @@ class IGScrapper:
 			print("Cannot find the username/ password box")
 
 		password_box.submit()
-		time.sleep(2)
+		time.sleep(4)
+
 
 		# close the "Turn on Notification" if any by clicking Not Now
 		# if not, then skip
@@ -212,16 +217,17 @@ class IGScrapper:
 		data = re.search('^[0-9]+', data).group(0)
 		return data
 
-if __name__ == "__main__":
 
-	username = '<username input>'
-	password = '<passowrd input>'
+if __name__ == "__main__":
+	username = '<ig_username>'
+	password = '<ig_password>'
 	filename = 'ig_scrapper'
 	driver_type = 'chrome'
 	username_to_be_scrapped = '<username to be scrapped>'
 	lentaa = IGScrapper(username, password, filename, driver_type)
 	lentaa.scrap_all_post_info(username_to_be_scrapped)
-
+	df = data_transformation(filename + '_' + username_to_be_scrapped + '.csv')
+	plot_scroll_annotate_bar_chart(df)
 
 
 
