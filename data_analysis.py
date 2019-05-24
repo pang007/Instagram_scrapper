@@ -10,10 +10,10 @@ def data_transformation(file):
 	to combine df[date] and df[time] and turn it into a datetime obejct with time df['datime']
 	'''
 	df = pd.read_csv(file)
-	df['datetime'] = df['date'] + ' ' + df['time']
+	df['datetime'] = ''
 	n = len(df)
 	for i in range(n):
-		df['datetime'][i] = datetime.strptime(df['datetime'][i], '%Y-%m-%d %H:%M')
+		df['datetime'][i] = date_time_format(df['date'][i], df['time'][i])
 	
 	# add a color field to define color
 	df['color'] = 0
@@ -51,11 +51,10 @@ def date_time_format(date, time):
 	'''
 	# to make the existing datetime as utc time format
 	utc_timezone = pytz.timezone('UTC')
-	result_time = datetime.strptime(' '.join([date, time]), '%d/%m/%Y %H:%M:%S %p')
+	result_time = datetime.strptime(' '.join([date, time]), '%Y-%m-%d %H:%M')
 	result_time = utc_timezone.localize(result_time)
 	# to convert the time into hk timezone format
 	hk_timezone = pytz.timezone('Asia/Hong_Kong')
 	hk_result_time = result_time.astimezone(hk_timezone)
 	return hk_result_time
-
 
