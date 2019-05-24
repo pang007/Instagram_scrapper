@@ -6,7 +6,7 @@ It can scrap the input user's all post website link, post img, number of like an
 
 Usage is very easy. 
 
-Down the file, open the terminal and input the below
+Download the file, open the terminal and input the below
 
 python [path]/ig_scrapper.py 'username' 'password' 'username to be scrapped'
 
