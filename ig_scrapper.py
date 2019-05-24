@@ -9,13 +9,15 @@ import csv
 import os
 from data_analysis import data_transformation
 from data_plot import plot_scroll_annotate_bar_chart
-
+import argparse
 
 class IGScrapper:
-	def __init__(self, username, password, filename, driver_type):
+	def __init__(self, username, password, filename = 'ig_scapper', driver_type = 'chrome'):
 		self.username = username
 		self.password = password
 		self.filename = filename
+		self.driver_type = driver_type
+
 		if driver_type.lower() == 'chrome':
 			self.driver = webdriver.Chrome() #rmb to download the chromedriver.exe (link: http://chromedriver.chromium.org/downloads)
 		elif driver_type.lower() == 'firefox':
@@ -219,12 +221,21 @@ class IGScrapper:
 
 
 if __name__ == "__main__":
-	username = '<ig_username>'
-	password = '<ig_password>'
-	filename = 'ig_scrapper'
-	driver_type = 'chrome'
-	username_to_be_scrapped = '<username to be scrapped>'
-	lentaa = IGScrapper(username, password, filename, driver_type)
+	
+	# for command line argument usage
+	parser = argparse.ArgumentParser()
+
+	# add the first command line argument as the username, password and username to be scrapped
+	parser.add_argument("username", help='enter your instagram username', type=str)
+	parser.add_argument("password", help='enter your instagram password', type=str)
+	parser.add_argument("scrap_username", help='enter username that you want to scrap in instagram', type=str)
+	args = parser.parse_args()
+	username = args.username
+	password = args.password
+	username_to_be_scrapped = args.scrap_username
+
+	# run the major code
+	lentaa = IGScrapper(username, password)
 	lentaa.scrap_all_post_info(username_to_be_scrapped)
 	df = data_transformation(filename + '_' + username_to_be_scrapped + '.csv')
 	plot_scroll_annotate_bar_chart(df)
