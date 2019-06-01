@@ -45,9 +45,9 @@ class IGScrapper:
 
 		try:
 			username_box = self.driver.find_element_by_xpath("//span[@id='react-root']//div[@class='f0n8F ']/input[@class='_2hvTZ pexuQ zyHYP']")
-			username_box.send_keys(username)
+			username_box.send_keys(self.username)
 			password_box = self.driver.find_element_by_xpath("//span[@id='react-root']//div[@class='f0n8F ']/input[@class='_2hvTZ pexuQ zyHYP']")
-			password_box.send_keys(password)
+			password_box.send_keys(self.password)
 		except Exception:
 			print("Cannot find the username/ password box")
 
@@ -201,7 +201,7 @@ class IGScrapper:
 		'''
 		self.login()
 		num_post, num_of_follower, num_of_following, photo_link = self.scrap_profile(username)
-		post_detail = lentaa.scrap_info_post_by_post(photo_link)
+		post_detail = self.scrap_info_post_by_post(photo_link)
 		with open(self.filename + '_' + username + '.csv', 'a') as csvFile:
 			fields = ['website_link', 'photo_link', 'number_of_like', 'date', 'time']
 			writer = csv.writer(csvFile)
